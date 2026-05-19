@@ -1,0 +1,57 @@
+﻿@page "/"
+@using ValidationExample.Client.Models
+@using ValidationExample.Client.Providers
+@inject IFormProvider formProvider
+
+<PageTitle>Home</PageTitle>
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h3>Registration Form</h3>
+        </div>
+        <div class="card-body">
+            <EditForm Model="formModel" OnValidSubmit="HandleValidSubmit" FormName="RegistrationForm">
+                <DataAnnotationsValidator />
+                <ValidationSummary class="text-danger" />
+
+                <div class="mb-3">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <InputText id="firstName" @bind-Value="formModel.FirstName" class="form-control" />
+                    <ValidationMessage For="() => formModel.FirstName" class="text-danger" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <InputText id="lastName" @bind-Value="formModel.LastName" class="form-control" />
+                    <ValidationMessage For="() => formModel.LastName" class="text-danger" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <InputText id="email" @bind-Value="formModel.Email" class="form-control" />
+                    <ValidationMessage For="() => formModel.Email" class="text-danger" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="phoneNumber" class="form-label">Phone Number</label>
+                    <InputText id="phoneNumber" @bind-Value="formModel.PhoneNumber" class="form-control" />
+                    <ValidationMessage For="() => formModel.PhoneNumber" class="text-danger" />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    private FormModel formModel = new();
+
+    private async Task HandleValidSubmit()
+    {
+        await formProvider.SubmitFormAsync(formModel);
+    }
+
+}
